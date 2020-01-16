@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>profile</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .wrapper {
+            height: 900px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .header {
+            margin-bottom: 50px;
+        }
+        .header span {
+            display: inline-block;
+            font-size: 16pt;
+        }
+        .header form {
+            display: inline-block;
+            
+        }
+        .header form input {
+            border-radius: 12px;
+            height: 34px;
+            width: 548px;
+            padding: 12px;
+            margin-left: 78px;
+            margin-top: 10px;
+            margin-right: 36px;
+        }
+        .header ul {
+            display: inline-block;
+        }
+        .header ul li {
+            display: inline-block;
+        }
+        .left {
+            display: inline-block;
+        }
+        .left h1 {
+            display: inline-block;
+        }
+        .left img {
+            width: 75px;
+            border-radius: 15px;
+        }
+        .left form {
+            margin: 5px 0px;
+        }
+        .choose {
+            display: inline-block;
+        }
+        .upload {
+            width: 100px;
+        }
+        .right {
+            display: inline-block;
+            width: 50%;
+            border: 4px solid gray;
+            padding: 10px;
+            float: right;
+        }
+        .right h3 {
+            font-style: italic;
+        }
+        .right span {
+            font-style: italic;
+        }
+        .right a {
+            font-size: 14pt;
+        }
+        #remove {
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <span>Hello {{this_user.first_name}}</span>
+            <form action="/search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" value="What are you watching?">
+            </form>
+            <ul>
+                <li><a href="/success">home</a></li>
+                <li><a href="/logout">logout</a></li>                    
+            </ul>
+        </div>
+        <div class="main">
+            <div class="left">
+                <img src="{{user.pic.url}}" alt="">
+                <h1>{{user.first_name}} {{user.last_name}}</h1>
+                {% if user.id == request.session.id %}
+                <form action="/action_page/{{this_user.id}}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="choose" type="file" name="pic" accept="image/*">
+                    <input class="upload" type="submit" value="Upload" >
+                </form>
+                {% endif %}
+                <p>Member since: {{user.created_at.month}}/{{user.created_at.day}}/{{user.created_at.year}}</p>
+                <p>Number of reviews: {{user.user.count}}</p>
+            </div>
+            <div class="right">
+                {% for review in user.user.all %}
+                <a href="/this_movie/{{review.movie.id}}">{{review.movie.title}}</a>
+                <br>
+                <span>{{review.review}}
+                    <br>
+                    Rating : {{review.rating}}
+                </span>
+                {% if review.user.id == request.session.id %}
+                <a id="remove" href="/delete_from_user/{{review.id}}/{{user.id}}">Remove</a>
+            {% endif %}
+                <br>
+                {% endfor %}
+                {% if user.user.count == 0 %}
+                <h3>Start rating films and your reviews will be displayed here</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

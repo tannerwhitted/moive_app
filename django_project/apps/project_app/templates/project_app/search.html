@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .wrapper {
+            height: 900px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .header span {
+            display: inline-block;
+            font-size: 16pt;
+        }
+        .header form {
+            display: inline-block;
+            
+        }
+        .header form input {
+            border-radius: 12px;
+            height: 34px;
+            width: 548px;
+            padding: 12px;
+            margin-left: 78px;
+            margin-top: 10px;
+            margin-right: 36px;
+        }
+        .header ul {
+            display: inline-block;
+        }
+        .header ul li {
+            display: inline-block;
+        }
+        .link a {
+            color: black;
+            font-size: 12pt;
+            font-style: italic;
+            position: relative;
+            left: 579px;
+        }
+        .body {
+            margin-top: 20px;
+            width: 40%;
+            display: inline-block;
+        }
+        .right {
+            margin-top: 20px;
+            float: right;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <span>Hello {{this_user.first_name}}</span>
+            <form action="/search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" value="What are you watching?">
+            </form>
+            <ul>
+                <li><a href="/success">home</a></li>
+                <li><a href="/profile/{{this_user.id}}">profile</a></li>
+                <li><a href="/logout">logout</a></li>                    
+            </ul>
+        </div>
+        <div class="link">
+            <a href="/add_movie">Can't find it? Add it to our site</a>
+        </div>
+        <div class="main">
+            <div class="body">
+                <h3>Results</h3>
+                {% for result_list in results %}
+                    {% for result in result_list %} 
+                            <a href="/this_movie/{{result.id}}">{{result.title}}</a>
+                            <br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="right">
+                <h3>Other movies</h3>
+                {% for movie in movies %}
+                {% if movie.id > scale %}
+                    <a href="/this_movie/{{movie.id}}">{{movie.title}}</a>
+                    <p>{{movie.desc}}</p>
+                    <a href="/this_movie/{{movie.id}}">Rate this movie</a>
+                    <br>
+                    <br>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

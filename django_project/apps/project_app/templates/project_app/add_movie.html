@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add one</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .wrapper {
+            height: 900px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .header span {
+            display: inline-block;
+            font-size: 16pt;
+        }
+        .header form {
+            display: inline-block;
+            
+        }
+        .header form input {
+            border-radius: 12px;
+            height: 34px;
+            width: 548px;
+            padding: 12px;
+            margin-left: 78px;
+            margin-top: 10px;
+            margin-right: 36px;
+        }
+        .header ul {
+            display: inline-block;
+        }
+        .header ul li {
+            display: inline-block;
+        }
+        .main input {
+            align-content: center;
+            margin: 13px;
+            position: relative;
+            left: 260px;
+            top: 177px;
+            padding: 5px;
+            border-radius: 5px;
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <span>Hello {{user.first_name}}</span>
+            <form action="/search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" value="What are you watching?">
+            </form>
+            <ul>
+                <a href="/success">home</a>
+                <li><a href="/profile/{{user.id}}">profile</a></li>
+                <li><a href="/logout">logout</a></li>                    
+            </ul>
+        </div>
+        <div class="main">
+            <form action="/add_movie_process" method="POST">
+                {% csrf_token %}
+                <input type="text" name="title" value="Title">
+                <br>
+                <input type="text" name="desc" value="Description">
+                <br>
+                <input type="text" name="run_time" value="Run Time (in min)">
+                <br>
+                <input type="text" name="released_at" value="Release Year">
+                <br>
+                <input type="text" name="cast" value="Who's in it?">
+                <br>
+                <input class="btn" type="submit" name="Update">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} 
+                    class="{{ message.tags }}"
+                    {% endif %}>
+                    {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

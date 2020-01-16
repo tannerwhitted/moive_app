@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>whatsnext</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+    <style>
+        .wrapper {
+            height: 700px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+            background-image:url({% static 'project_app/images/636737400178500000.jpg' %});
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .header a {
+            margin-left: 867px;
+            color: black;
+            font-style: italic;
+        }
+        .form {
+            align-content: center;
+        }
+        .body {
+            align-content: center;
+        }
+        .body input {
+            align-content: center;
+            margin: 13px;
+            position: relative;
+            left: 317px;
+            top: 300px;
+            padding: 5px;
+            border-radius: 5px;
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <a href="/register">Don't have an account?</a>
+        </div>
+        <form action="/login" method="POST">
+            {% csrf_token %}
+        <div class="body">
+            <input type="text" name="email" value="email">
+            <br>
+            <input type="text" name="password" value="password">
+            <br>
+            <input type="submit" name="Go">
+        </div>
+        </form>
+    </div>
+</body>
+</html>

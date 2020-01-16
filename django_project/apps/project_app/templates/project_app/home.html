@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>whatsnext</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .wrapper {
+            height: 900px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        .header span {
+            display: inline-block;
+            font-size: 16pt;
+        }
+        .header form {
+            display: inline-block;
+            
+        }
+        .header form input {
+            border-radius: 12px;
+            height: 34px;
+            width: 548px;
+            padding: 12px;
+            margin-left: 78px;
+            margin-top: 10px;
+            margin-right: 36px;
+        }
+        .header ul {
+            display: inline-block;
+        }
+        .header ul li {
+            display: inline-block;
+        }
+        .main {
+            align-content: center;
+            width: 750px;
+            margin: 0 auto;
+            border: 2px solid gray;
+            padding: 10px;
+        }
+        .main span {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <span>Hello {{this_user.first_name}}</span>
+            <form action="/search" method="POST">
+                {% csrf_token %}
+                <input type="text" name="search" value="What are you watching?">
+            </form>
+            <ul>
+                <li><a href="/success">home</a></li>
+                <li><a href="/profile/{{this_user.id}}">profile</a></li>
+                <li><a href="/logout">logout</a></li>
+            </ul>
+        </div>
+        <div class="main">
+            {% for review in review %}
+            <a href="/profile/{{review.user.id}}">{{review.user.first_name}}</a> watched <a href="/this_movie/{{review.movie.id}}">{{review.movie.title}}</a> 
+            <br>
+            <span>{{review.review}}</span>
+            <br>
+            Rating: {{review.rating}}
+                {% if review.user.id == request.session.id %}
+                    <a href="/delete_from_home/{{review.id}}/{{review.movie.id}}">Remove</a>
+                {% endif %}
+            <br>
+            <br>
+            {% endfor %}
+
+        </div>
+    </div>
+</body>
+</html>

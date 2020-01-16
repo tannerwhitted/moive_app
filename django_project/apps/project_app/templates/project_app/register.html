@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Get Started</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {% load static %}
+    <style>
+        .wrapper {
+            height: 700px;
+            width: 1050px;
+            margin: 0 auto;
+            padding: 10px;
+            background-image:url({% static 'project_app/images/Movie-Night-41.jpg' %});
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .left input {
+            align-content: center;
+            margin: 13px;
+            position: relative;
+            left: 295px;
+            top: 177px;
+            padding: 5px;
+            border-radius: 5px;
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+        </div>
+        <div class="main">
+            <div class="left">
+                <form action="/add_user" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="first_name" value="first name">
+                    <br>
+                    <input type="text" name="last_name" value="last name">
+                    <br>
+                    <input type="text" name="email" value="email">
+                    <br>
+                    <input type="text" name="password" value="password">
+                    <br>
+                    <input type="text" name="confirm_password" value="confirm password">
+                    <br>
+                    <input type="submit" name="Go">
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} 
+                            class="{{ message.tags }}"
+                            {% endif %}>
+                            {{ message }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
